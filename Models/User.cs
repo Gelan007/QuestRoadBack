@@ -7,12 +7,12 @@ namespace QuestRoadBack.Models
 {
     public class User
     {
-        public int user_id { get; set; }
-        public string name { get; set; }
-        public string password { get; set; }
-        public string email { get; set; }
-        public string phone { get; set; }
-        public Role role { get; set; }
+        public int User_id { get; }
+        public string Name { get; set; }
+        public string Password { get; set; }
+        public string Email { get; set; }
+        public string Phone { get; set; }
+        public Role Role { get; set; }
          
     }
 }

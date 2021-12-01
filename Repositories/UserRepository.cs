@@ -31,7 +31,7 @@ namespace QuestRoadBack.Repositories
         }
         public async Task<User> GetUser(int id)
         {
-            var query = "SELECT * FROM User WHERE user_id = @id";
+            var query = "SELECT * FROM [User] WHERE user_id = @id";
             using (var connection = _context.CreateConnection())
             {
                 var user = await connection.QuerySingleOrDefaultAsync<User>(query, new { id });
@@ -40,12 +40,13 @@ namespace QuestRoadBack.Repositories
         }
         public async Task CreateUser(User user)
         {
-            var query = "INSERT INTO User (name,password,email,phone) VALUES (@name,@password,@email,@phone)";
+            var query = "INSERT INTO [User] (name,password,email,phone, role) VALUES (@name,@password,@email,@phone, @role)";
             var parameters = new DynamicParameters();
-            parameters.Add("name", user.name, DbType.String);
-            parameters.Add("password", user.password, DbType.String);
-            parameters.Add("email", user.email, DbType.String);
-            parameters.Add("phone", user.phone, DbType.String);
+            parameters.Add("name", user.Name, DbType.String);
+            parameters.Add("password", user.Password, DbType.String);
+            parameters.Add("email", user.Email, DbType.String);
+            parameters.Add("phone", user.Phone, DbType.String);
+            parameters.Add("role", user.Role, DbType.Int32);
 
             using (var connection = _context.CreateConnection())
             {
@@ -54,13 +55,13 @@ namespace QuestRoadBack.Repositories
         }
         public async Task UpdateUser(int id, User user)
         {
-            var query = "UPDATE Customer SET name = @name, password = @password, email = @email, phone = @phone WHERE user_id = @id";
+            var query = "UPDATE [User] SET name = @name, password = @password, email = @email, phone = @phone WHERE user_id = @id";
             var parameters = new DynamicParameters();
             parameters.Add("id", id, DbType.Int32);
-            parameters.Add("name", user.name, DbType.String);
-            parameters.Add("password", user.password, DbType.String);
-            parameters.Add("email", user.email, DbType.String);
-            parameters.Add("phone", user.phone, DbType.String);
+            parameters.Add("name", user.Name, DbType.String);
+            parameters.Add("password", user.Password, DbType.String);
+            parameters.Add("email", user.Email, DbType.String);
+            parameters.Add("phone", user.Phone, DbType.String);
 
             using (var connection = _context.CreateConnection())
             {
@@ -69,7 +70,7 @@ namespace QuestRoadBack.Repositories
         }
         public async Task DeleteUser(int id)
         {
-            var query = "DELETE FROM User WHERE user_id = @id";
+            var query = "DELETE FROM [User] WHERE user_id = @id";
             using (var connection = _context.CreateConnection())
             {
                 await connection.ExecuteAsync(query, new { id });

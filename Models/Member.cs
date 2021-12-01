@@ -7,6 +7,8 @@ namespace QuestRoadBack.Models
 {
     public class Member
     {
-
+        public int User_id { get; set; }
+        public int Team_id { get; set; }
+        public DateTime When_assigned { get; set; }
     }
 }
