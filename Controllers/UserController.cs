@@ -72,6 +72,39 @@ namespace QuestRoadBack.Controllers
             }
 
         }
+
+
+        //[HttpPost("Registration")]
+        //public async Task<IActionResult> Registration([FromBody] Registration registration)
+        //{
+        //    try
+        //    {
+        //        UserRole role = UserRole.User;
+        //        var customer = await _userRepository.IsItAnExistingMail(registration.Email);
+        //        if (customer == null)
+        //        {
+        //            await _customerRepository.Registration(registration.Name, registration.Password, registration.Email, registration.Phone, registration.Birthday, role);
+        //            var cust = await _customerRepository.GetCustomerByParams(registration.Name, registration.Password, registration.Email, registration.Phone, registration.Birthday);
+        //            return Ok(cust);
+        //        }
+        //        else
+        //        {
+        //            return BadRequest("Пользователь с такой почтой уже существует");
+        //        }
+
+
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return new BadRequestObjectResult(
+        //            new
+        //            {
+        //                message = ex.Message
+        //            }
+        //            );
+        //    }
+        //}
+
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateUser(int id, User user)
         {
