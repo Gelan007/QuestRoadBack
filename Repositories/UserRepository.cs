@@ -29,7 +29,7 @@ namespace QuestRoadBack.Repositories
             }
 
         }
-        public async Task Registration(string name, string password, string email, string phone, UserRole role, int company_id)
+        public async Task Registration(string email, string phone, string password, string name, UserRole role, int company_id)
         {
             var query = "Insert into [User] (email,phone,password,name,role, company_id) VALUES (@email,@phone,@password,@name,@role,@company_id)";
 
@@ -93,6 +93,33 @@ namespace QuestRoadBack.Repositories
             using (var connection = _context.CreateConnection())
             {
                 await connection.ExecuteAsync(query, new { id });
+            }
+        }
+
+
+        public async Task<User> IsItAnExistingMail(string email)
+        {
+            string query = "Select * from [User] where  email = @email ";
+            using (var connection = _context.CreateConnection())
+            {
+                var cust = await connection.QueryFirstOrDefaultAsync<User>(query, new { email });
+                return cust;
+            }
+        }
+
+        public async Task<User> GetUserByParams(string email, string phone, string password, string name, UserRole role)
+        {
+            string query = "Select * from [User] where email = @email and phone = @phone and password = @password and name = @name and role = @role";
+            var parameters = new DynamicParameters();
+            parameters.Add("email", email, DbType.String);
+            parameters.Add("phone", phone, DbType.String);
+            parameters.Add("password", password, DbType.String);
+            parameters.Add("name", name, DbType.String);
+            parameters.Add("role", role, DbType.Int64);
+            using (var connection = _context.CreateConnection())
+            {
+                var cust = await connection.QueryFirstOrDefaultAsync<User>(query, parameters);
+                return cust;
             }
         }
     }

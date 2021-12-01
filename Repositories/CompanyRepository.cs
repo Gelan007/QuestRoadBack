@@ -81,5 +81,7 @@ namespace QuestRoadBack.Repositories
                 await connection.ExecuteAsync(query, new { id });
             }
         }
+
+        
     }
 }
