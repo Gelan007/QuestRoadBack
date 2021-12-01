@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31729.503
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuestRoadBack", "QuestRoadBack.csproj", "{C543256F-50C8-45C3-90EE-62CD5781E169}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C543256F-50C8-45C3-90EE-62CD5781E169}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C543256F-50C8-45C3-90EE-62CD5781E169}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C543256F-50C8-45C3-90EE-62CD5781E169}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C543256F-50C8-45C3-90EE-62CD5781E169}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {2BA5C674-7ED3-4AE6-9980-73511890B6E5}
+	EndGlobalSection
+EndGlobal
