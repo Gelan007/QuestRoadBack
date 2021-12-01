@@ -33,6 +33,7 @@ namespace QuestRoadBack
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IMemberRepository, MemberRepository>();
             services.AddScoped<ITeamRepository, TeamRepository>();
+            services.AddScoped<IBookingRepository, BookingRepository>();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
