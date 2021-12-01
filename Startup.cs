@@ -31,6 +31,7 @@ namespace QuestRoadBack
         {
             services.AddSingleton<DapperContext>();
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IMemberRepository, MemberRepository>();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>

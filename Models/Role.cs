@@ -7,9 +7,9 @@ namespace QuestRoadBack.Models
 {
     public enum Role
     {
-        User,
-        Admin,
-        Organization
+        User = 0,
+        Admin = 1,
+        Organization = 2
         
     }
 }
