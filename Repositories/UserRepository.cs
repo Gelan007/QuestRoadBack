@@ -76,5 +76,23 @@ namespace QuestRoadBack.Repositories
                 await connection.ExecuteAsync(query, new { id });
             }
         }
+        public async Task<User> Login(string email, string password)
+        {
+
+            var query = "select * FROM [User] WHERE email = @email";
+            using (var connection = _context.CreateConnection())
+            {
+                var user = await connection.QuerySingleOrDefaultAsync<User>(query, new { email });
+                bool IsUser = BCrypt.Net.BCrypt.Verify(password, user.Password);
+                if(IsUser == true)
+                {
+                    return user;
+                }
+                return null;
+
+            }
+            
+        }
+        
     }
 }

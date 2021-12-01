@@ -13,5 +13,9 @@ namespace QuestRoadBack.Contracts
         public Task CreateUser(User user);
         public Task UpdateUser(int id, User user);
         public Task DeleteUser(int id);
+        public Task<User> Login(string email, string password);
+        
+
+
     }
 }

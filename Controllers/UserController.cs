@@ -58,6 +58,23 @@ namespace QuestRoadBack.Controllers
                 return StatusCode(500, ex.Message);
             }
         }
+        [HttpPost("Login")]
+        public async Task<IActionResult> Login(Login login)
+        {
+            try
+            {
+                var user = await _userRepository.Login(login.Email, login.Password);
+                if (user != null)
+                {
+                    return Ok(user);
+                }
+                return NotFound("Неверный логин или пароль");
+            }
+            catch(Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
         [HttpPost]
         public async Task<IActionResult> CreateUser(User user)
         {
