@@ -85,8 +85,8 @@ namespace QuestRoadBack.Controllers
                 if (user == null)
                 {
                     await _userRepository.Registration(registration.Email, registration.Phone, registration.Password, registration.Name, role, companyId);
-                    var us = await _userRepository.GetUserByParams(registration.Email, registration.Phone, registration.Password, registration.Name, role);
-                    return Ok(us);
+                    //var us = await _userRepository.GetUserByParams(registration.Email, registration.Phone, registration.Password, registration.Name, role);
+                    return Ok("Ok");
                 }
                 else
                 {
@@ -149,6 +149,25 @@ namespace QuestRoadBack.Controllers
                 return StatusCode(500, ex.Message);
             }
         }
-       
+
+
+
+        [HttpPost("Login")]
+        public async Task<IActionResult> Login(Login login)
+        {
+            try
+            {
+                var user = await _userRepository.Login(login.Email, login.Password);
+                if (user != null)
+                {
+                    return Ok(user);
+                }
+                return NotFound("Неверный логин или пароль");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
     }
 }

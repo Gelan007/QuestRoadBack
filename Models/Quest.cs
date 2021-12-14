@@ -16,5 +16,7 @@ namespace QuestRoadBack.Models
         public string Category { get; set; }
         public string Actors { get; set; }
         public int Company_id { get; set; }
+        public int Max_count_users { get; set; }
+        public string Price { get; set; }
     }
 }

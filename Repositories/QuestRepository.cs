@@ -40,7 +40,7 @@ namespace QuestRoadBack.Repositories
         }
         public async Task CreateQuest(Quest quest)
         {
-            var query = "INSERT INTO [Quest] (name,description,difficulty_level,city, adress, category, actors, company_id) VALUES (@name,@description,@difficulty_level,@city, @adress, @category, @actors, @company_id)";
+            var query = "INSERT INTO [Quest] (name,description,difficulty_level,city, adress, category, actors, company_id, max_count_users, price) VALUES (@name,@description,@difficulty_level,@city, @adress, @category, @actors, @company_id, @max_count_users, price)";
             var parameters = new DynamicParameters();
             parameters.Add("name", quest.Name, DbType.String);
             parameters.Add("description", quest.Description, DbType.String);
@@ -50,6 +50,8 @@ namespace QuestRoadBack.Repositories
             parameters.Add("category", quest.Category, DbType.String);
             parameters.Add("actors", quest.Actors, DbType.String);
             parameters.Add("company_id", quest.Company_id, DbType.Int64);
+            parameters.Add("max_count_users", quest.Max_count_users, DbType.String);
+            parameters.Add("price", quest.Price, DbType.String);
 
             using (var connection = _context.CreateConnection())
             {
@@ -58,7 +60,7 @@ namespace QuestRoadBack.Repositories
         }
         public async Task UpdateQuest(int id, Quest quest)
         {
-            var query = "UPDATE [Quest] SET name = @name, description = @description, difficulty_level = @difficulty_level,city = @city, adress= @adress, category = @category, actors = @actors, company_id = @company_id WHERE quest_id = @id";
+            var query = "UPDATE [Quest] SET name = @name, description = @description, difficulty_level = @difficulty_level,city = @city, adress= @adress, category = @category, actors = @actors, company_id = @company_id, max_count_users = @max_count_users, price = @price WHERE quest_id = @id";
             var parameters = new DynamicParameters();
             parameters.Add("id", id, DbType.Int64);
             parameters.Add("name", quest.Name, DbType.String);
@@ -69,6 +71,8 @@ namespace QuestRoadBack.Repositories
             parameters.Add("category", quest.Category, DbType.String);
             parameters.Add("actors", quest.Actors, DbType.String);
             parameters.Add("company_id", quest.Company_id, DbType.Int64);
+            parameters.Add("max_count_users", quest.Max_count_users, DbType.String);
+            parameters.Add("price", quest.Price, DbType.String);
 
             using (var connection = _context.CreateConnection())
             {

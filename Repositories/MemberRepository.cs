@@ -51,5 +51,15 @@ namespace QuestRoadBack.Repositories
                 await connection.ExecuteAsync(query, new { id });
             }
         }
+
+        public async Task<int> GetCountOfUsersByTeamIdAsync(int teamId)
+        {
+            var query = "SELECT COUNT(user_id) FROM Member WHERE team_id = @teamId";
+            using(var connection = _context.CreateConnection())
+            {
+                var member = await connection.QuerySingleOrDefaultAsync<int>(query, new { teamId });
+                return member;
+            }
+        }
     }
 }

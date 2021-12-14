@@ -16,5 +16,6 @@ namespace QuestRoadBack.Contracts
         public Task<User> IsItAnExistingMail(string email);
         public Task Registration(string email, string phone, string password, string name, UserRole role, int company_id);
         public Task<User> GetUserByParams(string email, string phone, string password, string name, UserRole role);
+        public Task<User> Login(string email, string password);
     }
 }

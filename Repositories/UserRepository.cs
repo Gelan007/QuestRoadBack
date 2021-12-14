@@ -37,7 +37,7 @@ namespace QuestRoadBack.Repositories
             parameters.Add("email", email, DbType.String);
             parameters.Add("phone", phone, DbType.String);
             parameters.Add("password", BCrypt.Net.BCrypt.HashPassword(password), DbType.String);
-            parameters.Add("name", email, DbType.String);        
+            parameters.Add("name", name, DbType.String);        
             parameters.Add("role", role, DbType.Int64);
             parameters.Add("company_id", company_id, DbType.Int64);
             using (var connection = _context.CreateConnection())
@@ -121,6 +121,25 @@ namespace QuestRoadBack.Repositories
                 var cust = await connection.QueryFirstOrDefaultAsync<User>(query, parameters);
                 return cust;
             }
+        }
+
+
+        public async Task<User> Login(string email, string password)
+        {
+
+            var query = "select * FROM [User] WHERE email = @email";
+            using (var connection = _context.CreateConnection())
+            {
+                var user = await connection.QuerySingleOrDefaultAsync<User>(query, new { email });
+                bool IsUser = BCrypt.Net.BCrypt.Verify(password, user.Password);
+                if (IsUser == true)
+                {
+                    return user;
+                }
+                return null;
+
+            }
+
         }
     }
 }

@@ -10,6 +10,7 @@ namespace QuestRoadBack.Models
         public int Team_id { get; }
         public string Name { get; set; }
         public int Count { get; set; }
+        public string Phone { get; set; }
 
     }
 }

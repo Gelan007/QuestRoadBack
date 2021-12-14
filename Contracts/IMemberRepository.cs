@@ -11,5 +11,6 @@ namespace QuestRoadBack.Contracts
         public Task<IEnumerable<Member>> GetMembers();
         public Task CreateMember(Member member);
         public Task DeleteMember(int id);
+        public Task<int> GetCountOfUsersByTeamIdAsync(int id);
     }
 }

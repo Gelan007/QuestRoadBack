@@ -13,5 +13,6 @@ namespace QuestRoadBack.Contracts
         public Task CreateTeam(Team team);
         public Task UpdateTeam(int id, Team team);
         public Task DeleteTeam(int id);
+        public Task<int> GetTeamIdByPhoneAsync(string phone);
     }
 }

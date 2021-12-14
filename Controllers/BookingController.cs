@@ -13,6 +13,9 @@ namespace QuestRoadBack.Controllers
     public class BookingController: ControllerBase
     {
         private readonly IBookingRepository _bookingRepository;
+        private readonly ITeamRepository _teamRepository;
+        private readonly IMemberRepository _memberRepository;
+        private readonly Team _team;
         public BookingController(IBookingRepository bookingRepository)
         {
             _bookingRepository = bookingRepository;
@@ -111,6 +114,18 @@ namespace QuestRoadBack.Controllers
             catch (Exception ex)
             {
                 return StatusCode(500, ex.Message);
+            }
+        }
+        [HttpGet("{id}")]
+        public async Task<IActionResult> MakeSaleForTeam()
+        {
+            try
+            {
+                var teamId = await _teamRepository.GetTeamIdByPhoneAsync(_team.Phone);
+                var countOfMembers = await _memberRepository.GetCountOfUsersByTeamIdAsync(teamId);
+
+                double coefficient; 
+
             }
         }
     }

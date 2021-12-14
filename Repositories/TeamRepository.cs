@@ -72,5 +72,15 @@ namespace QuestRoadBack.Repositories
                 await connection.ExecuteAsync(query, new { id });
             }
         }
+
+        public async Task<int> GetTeamIdByPhoneAsync(string phone)
+        {
+            var query = "SELECT team_id FROM Team WHERE phone = @phone";
+            using(var connection = _context.CreateConnection())
+            {
+                var team = await connection.QuerySingleOrDefaultAsync<int>(query, new { phone});
+                return team;
+            }
+        }
     }
 }
