@@ -61,5 +61,10 @@ namespace QuestRoadBack.Repositories
                 return member;
             }
         }
+        //----
+        public Task CreateMemberAsync(int user_id, int team_id, DateTime when_assigned)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

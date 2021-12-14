@@ -82,5 +82,29 @@ namespace QuestRoadBack.Repositories
                 return team;
             }
         }
+        public async Task CreateTeamFromBookingAsync(string name, int count, string phone)
+        {
+            var query = "INSERT INTO [Team] (name, count,phone ) VALUES (@name,@count,@phone)";
+            var parameters = new DynamicParameters();
+            parameters.Add("name", name, DbType.String);
+            parameters.Add("count", count, DbType.Int64);
+            parameters.Add("phone", phone, DbType.String);
+
+            using (var connection = _context.CreateConnection())
+            {
+                await connection.ExecuteAsync(query, parameters);
+            }
+        }
+        // получить команду по имени и телефону    если что изменить на динам параметры
+        
+        public async Task<Team> GetTeamByPhoneAndNameAsync(string name, string phone)
+        {
+            var query = "SELECT * FROM Team WHERE name = @name and phone = @phone";
+            using (var connection = _context.CreateConnection())
+            {
+                var team = await connection.QuerySingleOrDefaultAsync<Team>(query, new { name, phone });
+                return team;
+            }
+        }
     }
 }

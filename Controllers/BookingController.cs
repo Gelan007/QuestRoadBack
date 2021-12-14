@@ -15,10 +15,14 @@ namespace QuestRoadBack.Controllers
         private readonly IBookingRepository _bookingRepository;
         private readonly ITeamRepository _teamRepository;
         private readonly IMemberRepository _memberRepository;
-        private readonly Team _team;
-        public BookingController(IBookingRepository bookingRepository)
+        private readonly IUserRepository _userRepository;
+        
+        public BookingController(IBookingRepository bookingRepository, ITeamRepository teamRepository, IMemberRepository memberRepository, IUserRepository userRepository)
         {
             _bookingRepository = bookingRepository;
+            _memberRepository = memberRepository;
+            _teamRepository = teamRepository;
+            _userRepository = userRepository;
         }
         [HttpGet]
         public async Task<IActionResult> GetBookings()
@@ -64,7 +68,7 @@ namespace QuestRoadBack.Controllers
         {
             try
             {
-                await _bookingRepository.CreateBooking(booking);
+                await _bookingRepository.CreateBooking(booking.Quest_id,booking.Team_id,booking.Price,booking.Time,booking.Description);
                 return Ok("OK");
             }
             catch (Exception ex)
@@ -121,11 +125,55 @@ namespace QuestRoadBack.Controllers
         {
             try
             {
-                var teamId = await _teamRepository.GetTeamIdByPhoneAsync(_team.Phone);
-                var countOfMembers = await _memberRepository.GetCountOfUsersByTeamIdAsync(teamId);
+               // var teamId = await _teamRepository.GetTeamIdByPhoneAsync();
+                //var countOfMembers = await _memberRepository.GetCountOfUsersByTeamIdAsync(teamId);
 
-                double coefficient; 
+                double coefficient;
+                return Ok("Ok");
 
+            }
+            catch(Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+        [HttpPost("Const")]
+        public async Task<IActionResult> CreateBookingAsync(BookingConstructor bookingConstructor)
+        {
+            try
+            {
+
+                // 1 - получим телефон командира 
+                var cap = await _userRepository.GetPhoneByIdAsync(bookingConstructor.User_id);
+
+
+                if(cap == null)
+                {
+                    return NotFound("Что-то пошло не так");
+                }
+
+                // - создание команды 
+                await _teamRepository.CreateTeamFromBookingAsync(bookingConstructor.TeamName, bookingConstructor.CountOfUsers, cap.Phone);
+                // получить айди команды
+                var team = await _teamRepository.GetTeamByPhoneAndNameAsync(bookingConstructor.TeamName, cap.Phone);
+                if(team == null)
+                {
+                    return NotFound("Что-то полшло не так");
+                }
+                DateTime today = DateTime.Now;
+
+                //создать мембера
+                await _memberRepository.CreateMemberAsync(bookingConstructor.User_id, team.Team_id, today);
+
+
+
+                await _bookingRepository.CreateBooking(bookingConstructor.Quest_id, team.Team_id, bookingConstructor.Price, bookingConstructor.Date, bookingConstructor.Description);
+                return Ok("Ok");
+
+            }
+            catch(Exception ex)
+            {
+                return StatusCode(500, ex.Message);
             }
         }
     }

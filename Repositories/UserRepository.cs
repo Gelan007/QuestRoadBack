@@ -141,5 +141,16 @@ namespace QuestRoadBack.Repositories
             }
 
         }
+
+        //чекни поле
+        public async Task<User> GetPhoneByIdAsync(int id)
+        {
+            string query = "Select * from [User] where user_id = @id ";
+            using (var connection = _context.CreateConnection())
+            {
+                var cust = await connection.QueryFirstOrDefaultAsync<User>(query, new { id });
+                return cust;
+            }
+        }
     }
 }
