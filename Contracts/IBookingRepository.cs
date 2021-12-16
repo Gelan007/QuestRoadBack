@@ -10,8 +10,9 @@ namespace QuestRoadBack.Contracts
     {
         public Task<IEnumerable<Booking>> GetBookings();
         public Task<Booking> GetBooking(int id);
-        public Task CreateBooking(Booking booking);
+        public Task CreateBooking( int quest_id, int team_id, int price, DateTime date, string desc);
         public Task UpdateBooking(int id, Booking booking);
         public Task DeleteBooking(int id);
+        public Task UpdateBookingPriceAsync(int team_id, double coef);
     }
 }

@@ -10,6 +10,8 @@ namespace QuestRoadBack.Models
         public int Booking_id { get; }
         public int Quest_id { get; set; }
         public int Team_id { get; set; }
+        //добавил цену
+        public int Price { get; set; }
         public DateTime Time { get; set; }
         public string Description { get; set; }
     }

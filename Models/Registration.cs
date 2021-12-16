@@ -5,12 +5,11 @@ using System.Threading.Tasks;
 
 namespace QuestRoadBack.Models
 {
-    public class Team
+    public class Registration
     {
-        public int Team_id { get; }
-        public string Name { get; set; }
-        public int Count { get; set; }
+        public string Email { get; set; }
         public string Phone { get; set; }
-
+        public string Password { get; set; }
+        public string Name { get; set; }
     }
 }

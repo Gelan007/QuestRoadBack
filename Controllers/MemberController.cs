@@ -13,9 +13,11 @@ namespace QuestRoadBack.Controllers
     public class MemberController: ControllerBase
     {
         private readonly IMemberRepository _memberRepository;
-        public MemberController(IMemberRepository memberRepository)
+        private readonly IBookingRepository _bookingRepository;
+        public MemberController(IMemberRepository memberRepository, IBookingRepository bookingRepository)
         {
             _memberRepository = memberRepository;
+            _bookingRepository = bookingRepository;
         }
         [HttpGet]
         public async Task<IActionResult> GetMembers()
@@ -38,6 +40,17 @@ namespace QuestRoadBack.Controllers
             try
             {
                 await _memberRepository.CreateMember(member);
+
+                int count = await _memberRepository.GetCountOfUsersByTeamIdAsync(member.Team_id);
+                if (count > 3)
+                {
+
+                    //апдейт цены букинга где тим айди = member.Team_id
+                    // какой-то кеф 
+                    double coef = 0.05;
+                    //await _bookingRepository.
+                }
+
                 return Ok("OK");
             }
             catch (Exception ex)

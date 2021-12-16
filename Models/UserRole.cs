@@ -5,11 +5,11 @@ using System.Threading.Tasks;
 
 namespace QuestRoadBack.Models
 {
-    public enum Role
+    public enum UserRole
     {
-        User = 0,
-        Admin = 1,
-        Organization = 2
+        User = 1,
+        Admin = 2,
+        Organization = 3
         
     }
 }

@@ -72,6 +72,40 @@ namespace QuestRoadBack.Controllers
             }
 
         }
+
+
+        [HttpPost("Registration")]
+        public async Task<IActionResult> Registration([FromBody] Registration registration)
+        {
+            try
+            {
+                UserRole role = UserRole.User;
+                int companyId = 0;
+                var user = await _userRepository.IsItAnExistingMail(registration.Email);
+                if (user == null)
+                {
+                    await _userRepository.Registration(registration.Email, registration.Phone, registration.Password, registration.Name, role, companyId);
+                    //var us = await _userRepository.GetUserByParams(registration.Email, registration.Phone, registration.Password, registration.Name, role);
+                    return Ok("Ok");
+                }
+                else
+                {
+                    return BadRequest("Пользователь с такой почтой уже существует");
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                return new BadRequestObjectResult(
+                    new
+                    {
+                        message = ex.Message
+                    }
+                    );
+            }
+        }
+
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateUser(int id, User user)
         {
@@ -109,6 +143,26 @@ namespace QuestRoadBack.Controllers
                     await _userRepository.DeleteUser(id);
                     return Ok("Ok");
                 }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+
+
+        [HttpPost("Login")]
+        public async Task<IActionResult> Login(Login login)
+        {
+            try
+            {
+                var user = await _userRepository.Login(login.Email, login.Password);
+                if (user != null)
+                {
+                    return Ok(user);
+                }
+                return NotFound("Неверный логин или пароль");
             }
             catch (Exception ex)
             {
