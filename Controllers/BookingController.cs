@@ -16,9 +16,11 @@ namespace QuestRoadBack.Controllers
         private readonly ITeamRepository _teamRepository;
         private readonly IMemberRepository _memberRepository;
         private readonly Team _team;
-        public BookingController(IBookingRepository bookingRepository)
+        public BookingController(IBookingRepository bookingRepository, ITeamRepository teamRepository, IMemberRepository memberRepository)
         {
             _bookingRepository = bookingRepository;
+            _teamRepository = teamRepository;
+            _memberRepository = memberRepository;
         }
         [HttpGet]
         public async Task<IActionResult> GetBookings()
