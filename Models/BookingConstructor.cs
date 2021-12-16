@@ -12,7 +12,7 @@ namespace QuestRoadBack.Models
         public string TeamName { get; set; }
         public int CountOfUsers { get; set; }
         public string Description { get; set; }
-        public string Price { get; set; }
+        public int Price { get; set; }
         public DateTime Date { get; set; }
     }
 }
