@@ -13,5 +13,6 @@ namespace QuestRoadBack.Contracts
         public Task CreateQuest(Quest quest);
         public Task UpdateQuest(int id, Quest quest);
         public Task DeleteQuest(int id);
+        public Task<IEnumerable<Quest>> GetMostPopularQuestsAsync();
     }
 }

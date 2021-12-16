@@ -40,14 +40,14 @@ namespace QuestRoadBack.Repositories
         }
         public async Task CreateCompany(Company company)
         {
-            var query = "INSERT INTO [Company] (name,company_check,email,phone, company_account, is_comfirmed, adress) VALUES (@name,@company_check,@email,@phone, @company_account, @is_comfirmed, @adress)";
+            var query = "INSERT INTO [Company] (name,company_check,email,phone, company_account, is_confirmed, adress) VALUES (@name,@company_check,@email,@phone, @company_account, @is_confirmed, @adress)";
             var parameters = new DynamicParameters();
             parameters.Add("name", company.Name, DbType.String);
             parameters.Add("company_check", company.Company_check, DbType.String);
             parameters.Add("email", company.Email, DbType.String);
             parameters.Add("phone", company.Phone, DbType.String);
             parameters.Add("company_account", company.Company_account, DbType.String);
-            parameters.Add("is_comfirmed", company.Is_comfirmed, DbType.Boolean);
+            parameters.Add("is_confirmed", company.Is_confirmed, DbType.Boolean);
             parameters.Add("adress", company.Adress, DbType.String);
 
             using (var connection = _context.CreateConnection())
@@ -57,7 +57,7 @@ namespace QuestRoadBack.Repositories
         }
         public async Task UpdateCompany(int id, Company company)
         {
-            var query = "UPDATE [Company] SET name = @name, company_check = @company_check,email= @email,phone = @phone, company_account = @company_account, is_comfirmed = @is_comfirmed, adress= @adress WHERE company_id = @id";
+            var query = "UPDATE [Company] SET name = @name, company_check = @company_check,email= @email,phone = @phone, company_account = @company_account, is_confirmed = @is_confirmed, adress= @adress WHERE company_id = @id";
             var parameters = new DynamicParameters();
             parameters.Add("id", id, DbType.Int64);
             parameters.Add("name", company.Name, DbType.String);
@@ -65,7 +65,7 @@ namespace QuestRoadBack.Repositories
             parameters.Add("email", company.Email, DbType.String);
             parameters.Add("phone", company.Phone, DbType.String);
             parameters.Add("company_account", company.Company_account, DbType.String);
-            parameters.Add("is_comfirmed", company.Is_comfirmed, DbType.Boolean);
+            parameters.Add("is_confirmed", company.Is_confirmed, DbType.Boolean);
             parameters.Add("adress", company.Adress, DbType.String);
 
             using (var connection = _context.CreateConnection())

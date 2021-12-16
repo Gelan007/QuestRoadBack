@@ -42,14 +42,29 @@ namespace QuestRoadBack.Controllers
                 await _memberRepository.CreateMember(member);
 
                 int count = await _memberRepository.GetCountOfUsersByTeamIdAsync(member.Team_id);
-                if (count > 3)
+                double coef = 1;
+                if(count >= 3)
                 {
+                    switch (count)
+                    {
+                        case 3:
+                            coef = 0.95;
+                            break;
+                        case 4:
+                            coef = 0.90;
+                            break;
+                        default:
+                            coef = 0.85;
+                            break;
+                    }
 
-                    //апдейт цены букинга где тим айди = member.Team_id
-                    // какой-то кеф 
-                    double coef = 0.05;
-                    //await _bookingRepository.
+                    await _bookingRepository.UpdateBookingPriceAsync(member.Team_id, coef);
                 }
+                
+                       
+                     
+                     
+
 
                 return Ok("OK");
             }

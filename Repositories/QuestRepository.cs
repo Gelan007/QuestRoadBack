@@ -31,7 +31,7 @@ namespace QuestRoadBack.Repositories
         }
         public async Task<Quest> GetQuest(int id)
         {
-            var query = "SELECT * FROM [Quest] WHERE quest_id = @id";
+            var query = "SELECT * FROM Quest WHERE quest_id = @id";
             using (var connection = _context.CreateConnection())
             {
                 var quest = await connection.QuerySingleOrDefaultAsync<Quest>(query, new { id });
@@ -40,7 +40,7 @@ namespace QuestRoadBack.Repositories
         }
         public async Task CreateQuest(Quest quest)
         {
-            var query = "INSERT INTO [Quest] (name,description,difficulty_level,city, adress, category, actors, company_id, max_count_users, price) VALUES (@name,@description,@difficulty_level,@city, @adress, @category, @actors, @company_id, @max_count_users, price)";
+            var query = "INSERT INTO [Quest] (name,description,difficulty_level,city, adress, category, actors, company_id, max_count_users, price) VALUES (@name,@description,@difficulty_level,@city, @adress, @category, @actors, @company_id, @max_count_users, @price)";
             var parameters = new DynamicParameters();
             parameters.Add("name", quest.Name, DbType.String);
             parameters.Add("description", quest.Description, DbType.String);
@@ -51,7 +51,7 @@ namespace QuestRoadBack.Repositories
             parameters.Add("actors", quest.Actors, DbType.String);
             parameters.Add("company_id", quest.Company_id, DbType.Int64);
             parameters.Add("max_count_users", quest.Max_count_users, DbType.String);
-            parameters.Add("price", quest.Price, DbType.String);
+            parameters.Add("price", quest.Price, DbType.Int32);
 
             using (var connection = _context.CreateConnection())
             {
@@ -72,7 +72,7 @@ namespace QuestRoadBack.Repositories
             parameters.Add("actors", quest.Actors, DbType.String);
             parameters.Add("company_id", quest.Company_id, DbType.Int64);
             parameters.Add("max_count_users", quest.Max_count_users, DbType.String);
-            parameters.Add("price", quest.Price, DbType.String);
+            parameters.Add("price", quest.Price, DbType.Int32);
 
             using (var connection = _context.CreateConnection())
             {
@@ -85,6 +85,16 @@ namespace QuestRoadBack.Repositories
             using (var connection = _context.CreateConnection())
             {
                 await connection.ExecuteAsync(query, new { id });
+            }
+        }
+
+        public async Task<IEnumerable<Quest>> GetMostPopularQuestsAsync()
+        {
+            var query = "select Quest.quest_id, Quest.name, Quest.description, Quest.difficulty_level, Quest.city, Quest.adress, Quest.category, Quest.actors, Quest.company_id, Quest.max_count_users, Quest.price from Quest Left join Booking on Quest.quest_id = Booking.quest_id group by Quest.quest_id, Quest.name, Quest.description, Quest.difficulty_level, Quest.city, Quest.adress, Quest.category, Quest.actors, Quest.company_id, Quest.max_count_users, Quest.price having count(Booking.booking_id) >= 0 order by count(Booking.booking_id) desc";
+            using (var connection = _context.CreateConnection())
+            {
+                var quests = await connection.QueryAsync<Quest>(query);
+                return quests.ToList();
             }
         }
     }

@@ -62,9 +62,18 @@ namespace QuestRoadBack.Repositories
             }
         }
         //----
-        public Task CreateMemberAsync(int user_id, int team_id, DateTime when_assigned)
+        public async Task CreateMemberAsync(int user_id, int team_id, DateTime when_assigned)
         {
-            throw new NotImplementedException();
+            var query = "INSERT INTO [Member] (user_id, team_id, when_assigned) VALUES (@user_id,@team_id,@when_assigned)";
+            var parameters = new DynamicParameters();
+            parameters.Add("user_id", user_id, DbType.Int32);
+            parameters.Add("team_id", team_id, DbType.Int32);
+            parameters.Add("when_assigned", when_assigned, DbType.DateTime);
+
+            using (var connection = _context.CreateConnection())
+            {
+                await connection.ExecuteAsync(query, parameters);
+            }
         }
     }
 }

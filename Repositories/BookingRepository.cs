@@ -40,14 +40,14 @@ namespace QuestRoadBack.Repositories
         }
         public async Task CreateBooking( int quest_id, int team_id, int price, DateTime time, string descriptio)
         {
-            var query = "INSERT INTO [Booking] (quest_id,team_id,price,time,description) VALUES (@quest_id,@team_id,@price@time,@description)";
+            var query = "INSERT INTO [Booking] (quest_id,team_id,price,time,description) VALUES (@quest_id,@team_id,@price,@time,@description)";
             var parameters = new DynamicParameters();
             parameters.Add("quest_id", quest_id, DbType.Int64);
             parameters.Add("team_id", team_id, DbType.Int64);
             //Добавил price
             parameters.Add("price", price, DbType.Int64);
             parameters.Add("time", time, DbType.DateTime);
-            parameters.Add("descriptio", descriptio, DbType.String);
+            parameters.Add("description", descriptio, DbType.String);
 
             using (var connection = _context.CreateConnection())
             {
@@ -77,19 +77,16 @@ namespace QuestRoadBack.Repositories
                 await connection.ExecuteAsync(query, new { id });
             }
         }
-        //придумать касательно коефов
+        
         public async Task UpdateBookingPriceAsync(int team_id, double coef)
         {
             var query = "UPDATE [Booking] SET price = price * @coef WHERE team_id = @team_id";
-            var parameters = new DynamicParameters();
             
-           
-            parameters.Add("team_id", team_id, DbType.Int64);
             
 
             using (var connection = _context.CreateConnection())
             {
-                await connection.ExecuteAsync(query, parameters);
+                await connection.ExecuteAsync(query, new { team_id,coef});
             }
         }
     }

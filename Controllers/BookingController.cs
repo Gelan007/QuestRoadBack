@@ -16,13 +16,16 @@ namespace QuestRoadBack.Controllers
         private readonly ITeamRepository _teamRepository;
         private readonly IMemberRepository _memberRepository;
         private readonly IUserRepository _userRepository;
+        private readonly IQuestRepository _questRepository;
         
-        public BookingController(IBookingRepository bookingRepository, ITeamRepository teamRepository, IMemberRepository memberRepository, IUserRepository userRepository)
+        public BookingController(IBookingRepository bookingRepository, ITeamRepository teamRepository, IMemberRepository memberRepository, IUserRepository userRepository, IQuestRepository questRepository)
         {
             _bookingRepository = bookingRepository;
             _memberRepository = memberRepository;
             _teamRepository = teamRepository;
             _userRepository = userRepository;
+            _questRepository = questRepository;
+
         }
         [HttpGet]
         public async Task<IActionResult> GetBookings()
@@ -120,37 +123,28 @@ namespace QuestRoadBack.Controllers
                 return StatusCode(500, ex.Message);
             }
         }
-        [HttpGet("{id}")]
-        public async Task<IActionResult> MakeSaleForTeam()
-        {
-            try
-            {
-               // var teamId = await _teamRepository.GetTeamIdByPhoneAsync();
-                //var countOfMembers = await _memberRepository.GetCountOfUsersByTeamIdAsync(teamId);
-
-                double coefficient;
-                return Ok("Ok");
-
-            }
-            catch(Exception ex)
-            {
-                return StatusCode(500, ex.Message);
-            }
-        }
-        [HttpPost("Const")]
+        
+        [HttpPost("Form")]
         public async Task<IActionResult> CreateBookingAsync(BookingConstructor bookingConstructor)
         {
             try
             {
+                
+                var quest = await _questRepository.GetQuest(bookingConstructor.Quest_id); 
 
                 // 1 - получим телефон командира 
                 var cap = await _userRepository.GetPhoneByIdAsync(bookingConstructor.User_id);
 
 
-                if(cap == null)
+                if(cap == null || quest == null)
                 {
                     return NotFound("Что-то пошло не так");
                 }
+                if (quest.Max_count_users < bookingConstructor.CountOfUsers || bookingConstructor.CountOfUsers <= 0)
+                {
+                    return BadRequest("Недопустимое количество человек в команде");
+                }
+
 
                 // - создание команды 
                 await _teamRepository.CreateTeamFromBookingAsync(bookingConstructor.TeamName, bookingConstructor.CountOfUsers, cap.Phone);
@@ -167,7 +161,7 @@ namespace QuestRoadBack.Controllers
 
 
 
-                await _bookingRepository.CreateBooking(bookingConstructor.Quest_id, team.Team_id, bookingConstructor.Price, bookingConstructor.Date, bookingConstructor.Description);
+                await _bookingRepository.CreateBooking(bookingConstructor.Quest_id, team.Team_id, quest.Price, bookingConstructor.Date, bookingConstructor.Description);
                 return Ok("Ok");
 
             }

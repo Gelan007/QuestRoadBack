@@ -113,5 +113,18 @@ namespace QuestRoadBack.Controllers
                 return StatusCode(500, ex.Message);
             }
         }
+        [HttpGet("Popular")]
+        public async Task<IActionResult> GetMostPopularQuestsAsync()
+        {
+            try
+            {
+                var quests = await _questRepository.GetMostPopularQuestsAsync();
+                return Ok(quests);
+            }
+            catch(Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
     }
 }
