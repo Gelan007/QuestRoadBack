@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using QuestRoadBack.Contracts;
 using QuestRoadBack.Models;
 using System;
@@ -15,6 +15,7 @@ namespace QuestRoadBack.Controllers
         private readonly IBookingRepository _bookingRepository;
         private readonly ITeamRepository _teamRepository;
         private readonly IMemberRepository _memberRepository;
+
         private readonly IUserRepository _userRepository;
         private readonly IQuestRepository _questRepository;
         
