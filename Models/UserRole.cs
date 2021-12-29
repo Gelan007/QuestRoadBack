@@ -10,6 +10,5 @@ namespace QuestRoadBack.Models
         User = 1,
         Admin = 2,
         Organization = 3
-        
     }
 }

@@ -13,6 +13,8 @@ namespace QuestRoadBack.Controllers
     public class QuestController: ControllerBase
     {
         private readonly IQuestRepository _questRepository;
+        private int UserId => int.Parse(User.Claims.Single(c => c.Type == "user_id").Value);
+        private string role => User.Claims.Single(c => c.Type == "role").Value;
         public QuestController(IQuestRepository questRepository)
         {
             _questRepository = questRepository;
@@ -21,9 +23,9 @@ namespace QuestRoadBack.Controllers
         public async Task<IActionResult> GetQuests()
         {
             try
-            {
-                var quests = await _questRepository.GetQuests();
-                return Ok(quests);
+            {   
+                    var quests = await _questRepository.GetQuests();
+                    return Ok(quests);
             }
             catch (Exception ex)
             {
@@ -121,7 +123,7 @@ namespace QuestRoadBack.Controllers
                 var quests = await _questRepository.GetMostPopularQuestsAsync();
                 return Ok(quests);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return StatusCode(500, ex.Message);
             }

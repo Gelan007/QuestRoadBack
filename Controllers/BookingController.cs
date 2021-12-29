@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using QuestRoadBack.Contracts;
 using QuestRoadBack.Models;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,15 +17,15 @@ namespace QuestRoadBack.Controllers
         private readonly ITeamRepository _teamRepository;
         private readonly IMemberRepository _memberRepository;
 
-        private readonly IUserRepository _userRepository;
+        private readonly IHelpRepository _helpRepository;
         private readonly IQuestRepository _questRepository;
         
-        public BookingController(IBookingRepository bookingRepository, ITeamRepository teamRepository, IMemberRepository memberRepository, IUserRepository userRepository, IQuestRepository questRepository)
+        public BookingController(IBookingRepository bookingRepository, ITeamRepository teamRepository, IMemberRepository memberRepository, IHelpRepository helpRepository, IQuestRepository questRepository)
         {
             _bookingRepository = bookingRepository;
             _memberRepository = memberRepository;
             _teamRepository = teamRepository;
-            _userRepository = userRepository;
+            _helpRepository = helpRepository;
             _questRepository = questRepository;
 
         }
@@ -134,7 +135,7 @@ namespace QuestRoadBack.Controllers
                 var quest = await _questRepository.GetQuest(bookingConstructor.Quest_id); 
 
                 // 1 - получим телефон командира 
-                var cap = await _userRepository.GetPhoneByIdAsync(bookingConstructor.User_id);
+                var cap = await _helpRepository.GetPhoneByIdAsync(bookingConstructor.User_id);
 
 
                 if(cap == null || quest == null)

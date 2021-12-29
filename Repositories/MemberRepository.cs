@@ -43,12 +43,12 @@ namespace QuestRoadBack.Repositories
             }
         }
 
-        public async Task DeleteMember(int id)
+        public async Task DeleteMember(int user_id, int team_id)
         {
-            var query = "DELETE FROM [Member] WHERE member_id = @id";
+            var query = "DELETE FROM [Member] WHERE user_id = @user_id and team_id = @team_id";
             using (var connection = _context.CreateConnection())
             {
-                await connection.ExecuteAsync(query, new { id });
+                await connection.ExecuteAsync(query, new { user_id, team_id });
             }
         }
 

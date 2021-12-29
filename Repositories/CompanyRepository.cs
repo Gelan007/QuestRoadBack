@@ -20,14 +20,12 @@ namespace QuestRoadBack.Repositories
         }
         public async Task<IEnumerable<Company>> GetCompanies()
         {
-
             var query = "SELECT * FROM Company";
             using (var connection = _context.CreateConnection())
             {
                 var companies = await connection.QueryAsync<Company>(query);
                 return companies.ToList();
             }
-
         }
         public async Task<Company> GetCompany(int id)
         {

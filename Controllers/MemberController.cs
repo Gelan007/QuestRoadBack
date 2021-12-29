@@ -59,13 +59,7 @@ namespace QuestRoadBack.Controllers
                     }
 
                     await _bookingRepository.UpdateBookingPriceAsync(member.Team_id, coef);
-                }
-                
-                       
-                     
-                     
-
-
+                }  
                 return Ok("OK");
             }
             catch (Exception ex)
@@ -75,12 +69,12 @@ namespace QuestRoadBack.Controllers
 
         }
         
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteMember(int id)
+        [HttpDelete("{user_id},{team_id}")]
+        public async Task<IActionResult> DeleteMember(int user_id, int team_id)
         {
             try
             { 
-                 await _memberRepository.DeleteMember(id);
+                 await _memberRepository.DeleteMember(user_id, team_id);
                  return Ok("Ok");
             }
             catch (Exception ex)

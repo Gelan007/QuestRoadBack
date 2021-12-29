@@ -40,10 +40,11 @@ namespace QuestRoadBack.Repositories
         }
         public async Task CreateTeam(Team team)
         {
-            var query = "INSERT INTO [Team] (name, count) VALUES (@name,@count)";
+            var query = "INSERT INTO [Team] (name, count, phone) VALUES (@name,@count,@phone)";
             var parameters = new DynamicParameters();
             parameters.Add("name", team.Name, DbType.String);
             parameters.Add("count", team.Count, DbType.Int64);
+            parameters.Add("phone", team.Phone, DbType.String);
 
             using (var connection = _context.CreateConnection())
             {
@@ -52,12 +53,12 @@ namespace QuestRoadBack.Repositories
         }
         public async Task UpdateTeam(int id, Team team)
         {
-            var query = "UPDATE [Team] SET name = @name, count = @count";
+            var query = "UPDATE [Team] SET name = @name, count = @count, phone = @phone";
             var parameters = new DynamicParameters();
             parameters.Add("id", id, DbType.Int32);
             parameters.Add("name", team.Name, DbType.String);
             parameters.Add("count", team.Count, DbType.Int32);
-
+            parameters.Add("phone", team.Phone, DbType.String);
 
             using (var connection = _context.CreateConnection())
             {
