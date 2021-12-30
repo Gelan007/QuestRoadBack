@@ -11,15 +11,17 @@ namespace QuestRoadBack.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class BookingController: ControllerBase
+
+    public class BookingController : ControllerBase
     {
         private readonly IBookingRepository _bookingRepository;
         private readonly ITeamRepository _teamRepository;
         private readonly IMemberRepository _memberRepository;
-
         private readonly IHelpRepository _helpRepository;
         private readonly IQuestRepository _questRepository;
-        
+
+        private int UserId => int.Parse(User.Claims.Single(c => c.Type == "user_id").Value);
+
         public BookingController(IBookingRepository bookingRepository, ITeamRepository teamRepository, IMemberRepository memberRepository, IHelpRepository helpRepository, IQuestRepository questRepository)
         {
             _bookingRepository = bookingRepository;
@@ -73,7 +75,7 @@ namespace QuestRoadBack.Controllers
         {
             try
             {
-                await _bookingRepository.CreateBooking(booking.Quest_id,booking.Team_id,booking.Price,booking.Time,booking.Description);
+                await _bookingRepository.CreateBooking(booking.Quest_id, booking.Team_id, booking.Price, booking.Time, booking.Description);
                 return Ok("OK");
             }
             catch (Exception ex)
@@ -125,20 +127,20 @@ namespace QuestRoadBack.Controllers
                 return StatusCode(500, ex.Message);
             }
         }
-        
+
         [HttpPost("Form")]
         public async Task<IActionResult> CreateBookingAsync(BookingConstructor bookingConstructor)
         {
             try
             {
-                
-                var quest = await _questRepository.GetQuest(bookingConstructor.Quest_id); 
+
+                var quest = await _questRepository.GetQuest(bookingConstructor.Quest_id);
 
                 // 1 - получим телефон командира 
-                var cap = await _helpRepository.GetPhoneByIdAsync(bookingConstructor.User_id);
+                var cap = await _helpRepository.GetPhoneByIdAsync(UserId);
 
-
-                if(cap == null || quest == null)
+                
+                if (cap == null || quest == null)
                 {
                     return NotFound("Что-то пошло не так");
                 }
@@ -152,14 +154,14 @@ namespace QuestRoadBack.Controllers
                 await _teamRepository.CreateTeamFromBookingAsync(bookingConstructor.TeamName, bookingConstructor.CountOfUsers, cap.Phone);
                 // получить айди команды
                 var team = await _teamRepository.GetTeamByPhoneAndNameAsync(bookingConstructor.TeamName, cap.Phone);
-                if(team == null)
+                if (team == null)
                 {
                     return NotFound("Что-то полшло не так");
                 }
                 DateTime today = DateTime.Now;
 
                 //создать мембера
-                await _memberRepository.CreateMemberAsync(bookingConstructor.User_id, team.Team_id, today);
+                await _memberRepository.CreateMemberAsync(UserId, team.Team_id, today);
 
 
 
@@ -167,7 +169,7 @@ namespace QuestRoadBack.Controllers
                 return Ok("Ok");
 
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return StatusCode(500, ex.Message);
             }

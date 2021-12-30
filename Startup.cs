@@ -79,7 +79,7 @@ namespace QuestRoadBack
             services.AddScoped<IQuestRepository, QuestRepository>();
             services.AddScoped<ICompanyRepository, CompanyRepository>();
 
-
+            services.AddScoped<IProfileRepository, ProfileRepository>();
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {

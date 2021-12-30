@@ -8,7 +8,6 @@ namespace QuestRoadBack.Models
     public class BookingConstructor
     {
         public int Quest_id { get; set; }
-        public int User_id { get; set; }
         public string TeamName { get; set; }
         public int CountOfUsers { get; set; }
         public string Description { get; set; }
